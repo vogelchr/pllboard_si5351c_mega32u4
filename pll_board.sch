@@ -10056,6 +10056,7 @@ Based on the following sources:
 <part name="P+12" library="supply1" deviceset="VCC" device=""/>
 <part name="GND16" library="supply1" deviceset="GND" device=""/>
 <part name="C15" library="rcl" deviceset="C-EU" device="C0805" value="100n"/>
+<part name="P+13" library="supply1" deviceset="+5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -10152,7 +10153,7 @@ Connector</text>
 <instance part="J3" gate="G$1" x="81.28" y="121.92"/>
 <instance part="P+9" gate="VCC" x="66.04" y="124.46"/>
 <instance part="J4" gate="G$1" x="137.16" y="137.16"/>
-<instance part="GND12" gate="1" x="147.32" y="127"/>
+<instance part="GND12" gate="1" x="147.32" y="124.46"/>
 <instance part="P+10" gate="VCC" x="147.32" y="152.4"/>
 <instance part="R23" gate="G$1" x="127" y="144.78" rot="R180"/>
 <instance part="R24" gate="G$1" x="116.84" y="147.32" rot="R180"/>
@@ -10189,6 +10190,7 @@ Connector</text>
 <instance part="P+12" gate="VCC" x="251.46" y="149.86"/>
 <instance part="GND16" gate="1" x="236.22" y="132.08"/>
 <instance part="C15" gate="G$1" x="246.38" y="144.78" rot="R270"/>
+<instance part="P+13" gate="1" x="116.84" y="132.08" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -10493,6 +10495,14 @@ Connector</text>
 <wire x1="144.78" y1="132.08" x2="147.32" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="GND12" gate="1" pin="GND"/>
 <wire x1="147.32" y1="132.08" x2="147.32" y2="129.54" width="0.1524" layer="91"/>
+<pinref part="J4" gate="G$1" pin="4"/>
+<wire x1="147.32" y1="129.54" x2="147.32" y2="127" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="134.62" x2="127" y2="134.62" width="0.1524" layer="91"/>
+<wire x1="127" y1="134.62" x2="127" y2="127" width="0.1524" layer="91"/>
+<wire x1="127" y1="127" x2="144.78" y2="127" width="0.1524" layer="91"/>
+<wire x1="144.78" y1="127" x2="144.78" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="144.78" y1="129.54" x2="147.32" y2="129.54" width="0.1524" layer="91"/>
+<junction x="147.32" y="129.54"/>
 </segment>
 <segment>
 <pinref part="GND15" gate="1" pin="GND"/>
@@ -10920,6 +10930,11 @@ Connector</text>
 <wire x1="180.34" y1="83.82" x2="177.8" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="177.8" y1="83.82" x2="177.8" y2="86.36" width="0.1524" layer="91"/>
 <junction x="177.8" y="86.36"/>
+</segment>
+<segment>
+<pinref part="J4" gate="G$1" pin="2"/>
+<wire x1="129.54" y1="132.08" x2="119.38" y2="132.08" width="0.1524" layer="91"/>
+<pinref part="P+13" gate="1" pin="+5V"/>
 </segment>
 </net>
 <net name="N$11" class="0">

@@ -148,7 +148,7 @@
 <text x="53.49875" y="28.73375" size="0.8128" layer="25" font="vector" rot="R90">CLK-3-2</text>
 <text x="37.94125" y="9.04875" size="0.8128" layer="26" font="vector" rot="MR0">Si5351C PLL + ATmega32U4
 PLL / OCXO-Control / Clock Generator
-V1.0 &lt;vogelchr@vogel.cx&gt;
+V1.1 &lt;vogelchr@vogel.cx&gt;
 http://github.com/vogelchr/pll_board/</text>
 <text x="10.31875" y="2.69875" size="0.8128" layer="25" font="vector">pll_board v1.0</text>
 </plain>
@@ -2641,8 +2641,8 @@ Please make sure your boards conform to these design rules.</description>
 <via x="20.32" y="39.37" extent="1-16" drill="0.35"/>
 <via x="17.78" y="36.83" extent="1-16" drill="0.35"/>
 <via x="8.41375" y="32.22625" extent="1-16" drill="0.35"/>
-<via x="7.77875" y="15.08125" extent="1-16" drill="0.35"/>
-<via x="9.36625" y="13.6525" extent="1-16" drill="0.35"/>
+<via x="6.6675" y="15.71625" extent="1-16" drill="0.35"/>
+<via x="7.77875" y="13.17625" extent="1-16" drill="0.35"/>
 <via x="8.09625" y="26.3525" extent="1-16" drill="0.35"/>
 <via x="6.6675" y="28.575" extent="1-16" drill="0.35"/>
 <via x="10.00125" y="26.3525" extent="1-16" drill="0.35"/>
@@ -2731,7 +2731,13 @@ Please make sure your boards conform to these design rules.</description>
 <via x="39.0525" y="23.01875" extent="1-16" drill="0.35"/>
 <via x="36.5125" y="23.01875" extent="1-16" drill="0.35"/>
 <via x="28.575" y="20.32" extent="1-16" drill="0.35"/>
+<contactref element="J4" pad="4"/>
+<via x="9.36625" y="13.6525" extent="1-16" drill="0.35"/>
+<via x="9.36625" y="18.57375" extent="1-16" drill="0.35"/>
+<via x="9.36625" y="22.5425" extent="1-16" drill="0.35"/>
 <wire x1="26.035" y1="36.195" x2="26.67" y2="36.83" width="0" layer="19" extent="1-1"/>
+<via x="8.5725" y="24.60625" extent="1-16" drill="0.35"/>
+<via x="6.6675" y="24.4475" extent="1-16" drill="0.35"/>
 </signal>
 <signal name="CLK0_SMA">
 <contactref element="R1" pad="2"/>
@@ -2791,14 +2797,19 @@ Please make sure your boards conform to these design rules.</description>
 <signal name="CLK4_SMA">
 <contactref element="R5" pad="2"/>
 <contactref element="X4" pad="1"/>
-<wire x1="4.31165" y1="13.97" x2="8.255" y2="13.97" width="0.1524" layer="1"/>
-<wire x1="8.255" y1="13.97" x2="9.04875" y2="14.76375" width="0.1524" layer="1"/>
-<wire x1="9.04875" y1="14.76375" x2="9.04875" y2="31.59125" width="0.1524" layer="1"/>
-<wire x1="9.04875" y1="31.59125" x2="9.36625" y2="31.90875" width="0.1524" layer="1"/>
+<wire x1="9.04875" y1="31.59125" x2="9.128125" y2="31.670625" width="0.1524" layer="1"/>
+<wire x1="9.128125" y1="31.670625" x2="9.36625" y2="31.90875" width="0.1524" layer="1"/>
 <wire x1="19.05" y1="31.90875" x2="19.3675" y2="32.22625" width="0.1524" layer="1"/>
 <wire x1="19.3675" y1="32.22625" x2="19.3675" y2="35.5575" width="0.1524" layer="1"/>
 <wire x1="19.3675" y1="35.5575" x2="19.37" y2="35.56" width="0.1524" layer="1"/>
 <wire x1="9.36625" y1="31.90875" x2="19.05" y2="31.90875" width="0.1524" layer="1"/>
+<wire x1="8.337075" y1="25.7711" x2="8.3086" y2="25.7711" width="0.1524" layer="1"/>
+<wire x1="8.3086" y1="25.7711" x2="7.62" y2="25.0825" width="0.1524" layer="1"/>
+<wire x1="9.128125" y1="31.670625" x2="9.128125" y2="26.56215" width="0.1524" layer="1"/>
+<wire x1="9.128125" y1="26.56215" x2="8.337075" y2="25.7711" width="0.1524" layer="1"/>
+<wire x1="7.62" y1="25.0825" x2="7.62" y2="14.2875" width="0.1524" layer="1"/>
+<wire x1="7.62" y1="14.2875" x2="7.3025" y2="13.97" width="0.1524" layer="1"/>
+<wire x1="7.3025" y1="13.97" x2="4.31165" y2="13.97" width="0.1524" layer="1"/>
 </signal>
 <signal name="CLK5_SMA">
 <contactref element="R6" pad="2"/>
@@ -3267,7 +3278,7 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="24.13" y1="8.255" x2="22.70125" y2="6.82625" width="0.3048" layer="1"/>
 <wire x1="22.70125" y1="6.82625" x2="21.11375" y2="6.82625" width="0.3048" layer="1"/>
 <wire x1="21.11375" y1="6.82625" x2="20.32" y2="7.62" width="0.3048" layer="1"/>
-<wire x1="20.32" y1="7.62" x2="17.93875" y2="7.6175" width="0.3048" layer="1"/>
+<wire x1="17.93875" y1="7.6175" x2="20.32" y2="7.62" width="0.3048" layer="1"/>
 <wire x1="31.03" y1="22.25" x2="32.0425" y2="22.25" width="0.1524" layer="1"/>
 <wire x1="32.0425" y1="22.25" x2="32.22625" y2="22.06625" width="0.1524" layer="1"/>
 <wire x1="32.22625" y1="22.06625" x2="32.22625" y2="18.415" width="0.1524" layer="1"/>
@@ -3284,6 +3295,19 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="31.005" y1="22.225" x2="31.03" y2="22.25" width="0.1524" layer="1"/>
 <wire x1="24.4214" y1="12.2753125" x2="24.4214" y2="15.8489" width="0.1524" layer="1"/>
 <wire x1="25.60999375" y1="21.7548" x2="28.7398" y2="21.7548" width="0.1524" layer="1"/>
+<contactref element="J4" pad="2"/>
+<wire x1="12.7" y1="29.21" x2="11.58875" y2="29.21" width="0.254" layer="1"/>
+<wire x1="11.58875" y1="29.21" x2="11.1125" y2="28.73375" width="0.254" layer="1"/>
+<wire x1="11.1125" y1="25.7175" x2="11.1125" y2="28.73375" width="0.254" layer="1"/>
+<wire x1="10.63625" y1="8.89" x2="15.39875" y2="8.89" width="0.254" layer="1"/>
+<wire x1="15.39875" y1="8.89" x2="16.66875" y2="7.62" width="0.254" layer="1"/>
+<wire x1="16.66875" y1="7.62" x2="17.93625" y2="7.62" width="0.254" layer="1"/>
+<wire x1="17.93625" y1="7.62" x2="17.93875" y2="7.6175" width="0.254" layer="1"/>
+<wire x1="10.16" y1="24.765" x2="10.239375" y2="24.844375" width="0.254" layer="1"/>
+<wire x1="10.239375" y1="24.844375" x2="11.1125" y2="25.7175" width="0.254" layer="1"/>
+<wire x1="10.239375" y1="24.844375" x2="8.5725" y2="23.1775" width="0.254" layer="1"/>
+<wire x1="8.5725" y1="23.1775" x2="8.5725" y2="10.95375" width="0.254" layer="1"/>
+<wire x1="8.5725" y1="10.95375" x2="10.63625" y2="8.89" width="0.254" layer="1"/>
 </signal>
 <signal name="N$11">
 <contactref element="U1" pad="2"/>
@@ -4020,23 +4044,23 @@ Please make sure your boards conform to these design rules.</description>
 <approved hash="4,16,4f244d44b1b2b132"/>
 <approved hash="4,16,e6f3633433473c6b"/>
 <approved hash="21,19,192d19ad1baf9baf"/>
-<approved hash="4,1,56a6163a6a012a21"/>
-<approved hash="4,1,96db16172a35aaa9"/>
-<approved hash="4,1,56be16426a052a25"/>
-<approved hash="4,1,a8fd2809148dace9"/>
-<approved hash="4,1,94d3141f288da8f1"/>
 <approved hash="4,1,569a165e6a012a31"/>
-<approved hash="4,1,96bf163b2a05aaa1"/>
-<approved hash="4,1,90dd10192c75b4d1"/>
 <approved hash="4,1,96ad16392a0daaa9"/>
-<approved hash="4,1,37ee16426a054b75"/>
-<approved hash="4,1,7cd098da58e8bd02"/>
+<approved hash="4,1,90dd10192c75b4d1"/>
+<approved hash="4,1,94d3141f288da8f1"/>
+<approved hash="4,1,96bf163b2a05aaa1"/>
+<approved hash="4,1,56be16426a052a25"/>
+<approved hash="4,1,96db16172a35aaa9"/>
+<approved hash="4,1,56a6163a6a012a21"/>
+<approved hash="4,1,a8fd2809148dace9"/>
 <approved hash="4,1,fb88a07821be7ec0"/>
+<approved hash="4,1,7cd098da58e8bd02"/>
+<approved hash="4,1,37ee16426a054b75"/>
 <approved hash="4,1,37ca165e6a014b61"/>
-<approved hash="4,1,3977627521bebcd1"/>
 <approved hash="4,1,3edbdedb5810e72f"/>
-<approved hash="4,1,37f6163a6a014b71"/>
+<approved hash="4,1,3977627521bebcd1"/>
 <approved hash="4,1,b5a5ee4321b230bb"/>
+<approved hash="4,1,37f6163a6a014b71"/>
 <approved hash="4,1,82fd5ac158e47b19"/>
 <approved hash="4,1,1030d7048f241810"/>
 <approved hash="4,1,3d70e38407e46510"/>
@@ -4060,40 +4084,40 @@ Please make sure your boards conform to these design rules.</description>
 <approved hash="4,1,6f0f94495e99dff9"/>
 <approved hash="4,1,591058d3922767e4"/>
 <approved hash="4,1,3831397a12353bc1"/>
-<approved hash="4,1,c5a631e5992076b5"/>
-<approved hash="4,1,3aea123e162b066f"/>
-<approved hash="4,1,3b07f7a460ce48f4"/>
-<approved hash="4,1,04da2c6e106b38ef"/>
 <approved hash="4,1,3b89f3f09d2cb4a2"/>
 <approved hash="4,1,06fc2e1012333a6f"/>
-<approved hash="4,1,27d16c7d10e65b96"/>
-<approved hash="4,1,84a16c7d10e7f8e7"/>
+<approved hash="4,1,3b07f7a460ce48f4"/>
+<approved hash="4,1,04da2c6e106b38ef"/>
 <approved hash="4,1,7528b9d360c206c1"/>
 <approved hash="4,1,04f42c18106b38d7"/>
 <approved hash="4,1,27a96c6510e25b92"/>
 <approved hash="4,1,84d96c6510e3f8e3"/>
-<approved hash="4,1,93b971784b8b4a97"/>
-<approved hash="4,1,e23873406e5a869a"/>
+<approved hash="4,1,27d16c7d10e65b96"/>
+<approved hash="4,1,84a16c7d10e7f8e7"/>
+<approved hash="4,1,c5a631e5992076b5"/>
+<approved hash="4,1,3aea123e162b066f"/>
 <approved hash="4,1,95ab1bc126204ca5"/>
 <approved hash="4,1,1646f304fb70fed8"/>
 <approved hash="4,1,bfd204deb28686fc"/>
 <approved hash="4,1,36cace3eb2924a92"/>
+<approved hash="4,1,93b971784b8b4a97"/>
+<approved hash="4,1,e23873406e5a869a"/>
 <approved hash="6,1,27fa190adb791465"/>
 <approved hash="6,1,50d0847b8a545568"/>
 <approved hash="6,1,cb6f73470ac34d11"/>
 <approved hash="6,1,4f0f02c93912e3df"/>
 <approved hash="6,1,67bca49184055ab1"/>
 <approved hash="6,1,c53d8c214655950e"/>
-<approved hash="4,16,96ad16392a0daaa9"/>
-<approved hash="4,16,96db16172a35aaa9"/>
-<approved hash="4,16,94d3141f288da8f1"/>
-<approved hash="4,16,a8fd2809148dace9"/>
 <approved hash="4,16,96bf163b2a05aaa1"/>
+<approved hash="4,16,a8fd2809148dace9"/>
+<approved hash="4,16,96db16172a35aaa9"/>
+<approved hash="4,16,96ad16392a0daaa9"/>
 <approved hash="4,16,90dd10192c75b4d1"/>
+<approved hash="4,16,94d3141f288da8f1"/>
 <approved hash="4,16,3977627521bebcd1"/>
 <approved hash="4,16,3edbdedb5810e72f"/>
-<approved hash="4,16,b5a5ee4321b230bb"/>
 <approved hash="4,16,82fd5ac158e47b19"/>
+<approved hash="4,16,b5a5ee4321b230bb"/>
 <approved hash="4,16,fb88a07821be7ec0"/>
 <approved hash="4,16,7cd098da58e8bd02"/>
 <approved hash="4,16,1030d7048f241810"/>
@@ -4110,14 +4134,14 @@ Please make sure your boards conform to these design rules.</description>
 <approved hash="4,16,3831397a12353bc1"/>
 <approved hash="19,16,743886c4865f74a3"/>
 <approved hash="19,16,41a16e5d50277fdb"/>
-<approved hash="4,16,3b89f3f09d2cb4a2"/>
-<approved hash="4,16,06fc2e1012333a6f"/>
 <approved hash="4,16,c5a631e5992076b5"/>
 <approved hash="4,16,3aea123e162b066f"/>
 <approved hash="4,16,7528b9d360c206c1"/>
 <approved hash="4,16,04f42c18106b38d7"/>
 <approved hash="4,16,3b07f7a460ce48f4"/>
 <approved hash="4,16,04da2c6e106b38ef"/>
+<approved hash="4,16,3b89f3f09d2cb4a2"/>
+<approved hash="4,16,06fc2e1012333a6f"/>
 <approved hash="4,16,93b971784b8b4a97"/>
 <approved hash="4,16,e23873406e5a869a"/>
 <approved hash="4,16,95ab1bc126204ca5"/>
