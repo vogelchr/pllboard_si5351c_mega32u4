@@ -8,11 +8,15 @@ FILE *pout = &cmdline_out_stream;
 static unsigned char cmdline_buf[32];
 static unsigned char cmdline_len;
 
+/* as a response to read/write commands */
 enum cmdline_wait_usb {
 	WAIT_USB_NONE,
 	WAIT_USB_READ,
 	WAIT_USB_WRITE
 };
+
+uint8_t dump_si5351c_active;
+uint8_t dump_si5351c_offs;
 
 enum cmdline_wait_usb cmdline_wait_usb;
 
@@ -36,26 +40,28 @@ static char to_hex(uint8_t c) {
 void
 cmdline_parse(void)
 {
-	uint32_t i2c_addr, i2c_reg, i2c_val;
-	int i;
+	uint8_t i2c_addr, i2c_reg;
+	uint8_t i;
 
 	if (cmdline_len == 0)
 		return;
 
 	if (cmdline_len == 1 && cmdline_buf[0]=='?') {
 		fprintf_P(pout,PSTR(
-			"?: this help\r\n"
-			"rAARR   start i2c register read from addr AA register #RR\r\n"
-			"R       show i2c register read result\r\n"
-			"wAARRVV write i2c register, value VV\r\n"
-			"i       show i2c debug flags\r\n"));
+			"?         this help\r\n"
+			"rAARR     start i2c register read from addr AA register #RR\r\n"
+			"R         show i2c register read result\r\n"
+			"wAARRVV.. write i2c register, values VV..\r\n"
+			"i         show i2c debug flags\r\n"
+			"d         dump si5351c registers\r\n"
+			"X         reset i2c master logic\r\n"));
 		return;
 	}
 
 	if (cmdline_len == 5 && cmdline_buf[0]=='r') {
 		i2c_addr = (nibble(cmdline_buf[1])<<4) | nibble(cmdline_buf[2]);
 		i2c_reg  = (nibble(cmdline_buf[3])<<4) | nibble(cmdline_buf[4]);
-		fprintf_P(pout,PSTR("read 0x%02x 0x%02x\n"),
+		fprintf_P(pout,PSTR("i2c read dev=0x%02x reg=0x%02x\n"),
 			i2c_addr, i2c_reg);
 		avr_i2c_master_buf[0] = AVR_I2C_MASTER_ADDR_WRITE(i2c_addr);
 		avr_i2c_master_buf[1] = i2c_reg;
@@ -65,18 +71,29 @@ cmdline_parse(void)
 		return;
 	}
 
-	if (cmdline_len == 7 && cmdline_buf[0]=='w') {
+	if (cmdline_len >= 7 && cmdline_buf[0]=='w') {
 		i2c_addr = (nibble(cmdline_buf[1])<<4) | nibble(cmdline_buf[2]);
 		i2c_reg  = (nibble(cmdline_buf[3])<<4) | nibble(cmdline_buf[4]);
-		i2c_val  = (nibble(cmdline_buf[5])<<4) | nibble(cmdline_buf[6]);
 
-		fprintf_P(pout,PSTR("write 0x%02x 0x%02x 0x%02x\r\n"),
-			i2c_addr, i2c_reg, i2c_val);
+		for (i=0; i<(AVR_I2C_MASTER_MAX_BUFLEN-2); i++) {
+			if (6+2*i >= cmdline_len) {
+				fputc('@', pout);
+				break;
+			}
+			fputc('.', pout);
+			avr_i2c_master_buf[i+2] =
+				(nibble(cmdline_buf[5+2*i]) << 4) |
+				 nibble(cmdline_buf[6+2*i]);
+		}
+
+		fprintf_P(pout,
+			PSTR("i2c write dev=0x%02x reg=0x%02x 0x%02x byte(s) payload\r\n"),
+			i2c_addr, i2c_reg, i);
 
 		avr_i2c_master_buf[0] = AVR_I2C_MASTER_ADDR_WRITE(i2c_addr);
 		avr_i2c_master_buf[1] = i2c_reg;
-		avr_i2c_master_buf[2] = i2c_val;
-		avr_i2c_master_buflen = 3;
+		avr_i2c_master_buflen = i+2;
+
 		avr_i2c_master_trigger(AVR_I2C_MASTER_XFER_STOP);
 		cmdline_wait_usb = WAIT_USB_WRITE;
 		return;
@@ -95,6 +112,22 @@ cmdline_parse(void)
 		}
 		fputc('\r', pout);
 		fputc('\n', pout);
+		return;
+	}
+
+	if (cmdline_len == 1 && cmdline_buf[0] == 'd') {
+		avr_i2c_master_buf[0] = AVR_I2C_MASTER_ADDR_WRITE(0x60);
+		avr_i2c_master_buf[1] = 0x00;
+		avr_i2c_master_buflen = 17;
+		avr_i2c_master_trigger(AVR_I2C_MASTER_XFER_AUTORD);
+		dump_si5351c_active=1;
+		dump_si5351c_offs=0;
+		return;
+	}
+
+	if (cmdline_len == 1 && cmdline_buf[0] == 'X') {
+		fprintf_P(pout,	PSTR("i2c master init\r\n"));
+		avr_i2c_master_init();
 		return;
 	}
 
@@ -135,8 +168,35 @@ cmdline_tick()
 	uint32_t flags;
 	int i;
 
+	flags = avr_i2c_master_get_flags();
+
+
+	if (dump_si5351c_active) {
+		if (flags & AVR_I2C_MASTER_RUNNING)
+			return;
+		if (flags == AVR_I2C_MASTER_IDLE) {
+			fprintf_P(pout,PSTR("\r%02x:"), dump_si5351c_offs);
+			for (i=1; i<avr_i2c_master_buflen; i++) {
+				uint8_t v = avr_i2c_master_buf[i];
+				fputc(to_hex(v >> 4), pout);
+				fputc(to_hex(v & 0x0f), pout);
+			}
+			fputc('\r', pout);
+			fputc('\n', pout);
+			dump_si5351c_offs += 16;
+			if (dump_si5351c_offs) { /* no overrun to zero! */
+				avr_i2c_master_buf[0] = AVR_I2C_MASTER_ADDR_WRITE(0x60);
+				avr_i2c_master_buf[1] = dump_si5351c_offs;
+				avr_i2c_master_buflen = 17;
+				avr_i2c_master_trigger(AVR_I2C_MASTER_XFER_AUTORD);
+			} else {
+				dump_si5351c_active=0;
+			}
+		}
+		return;
+	}
+
 	if (cmdline_wait_usb != WAIT_USB_NONE) {
-		flags = avr_i2c_master_get_flags();
 		if (!(flags & AVR_I2C_MASTER_RUNNING)) {
 			fputc('\r', pout);
 			fputc('\n', pout);
@@ -160,6 +220,7 @@ cmdline_tick()
 
 			cmdline_wait_usb = WAIT_USB_NONE;
 		}
+		return;
 
 	}
 }

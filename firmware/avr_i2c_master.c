@@ -24,6 +24,10 @@ ISR(TWI_vect)
 	/* MT: master transmitter, MR: master receiver */
 
 	switch (i2c_status) {
+	case TW_BUS_ERROR:
+		flags |= _BV(TWSTO);
+		break;
+
 	case TW_START:     /* 0x08 start condition transmitted */
 	case TW_REP_START: /* 0x10 repeated start condition transmitted */
 		bufp=0;
@@ -47,7 +51,7 @@ ISR(TWI_vect)
 		} else {
 			if (bufp >= AVR_I2C_MASTER_MAX_BUFLEN) {
 				flags = AVR_I2C_MASTER_ERR_FATAL;
-				twcr &= _BV(TWIE);
+				twcr |= _BV(TWSTO);
 				goto out;
 			}
 			/* load data byte */
@@ -76,7 +80,7 @@ ISR(TWI_vect)
 		if (i2c_status == TW_MR_DATA_ACK) {
 			if (bufp >= AVR_I2C_MASTER_MAX_BUFLEN) {
 				flags = AVR_I2C_MASTER_ERR_FATAL;
-				twcr &= _BV(TWIE);
+				twcr &= ~(_BV(TWIE)|_BV(TWEN));
 				goto out;
 			}
 			avr_i2c_master_buf[bufp++] = TWDR;
@@ -95,7 +99,7 @@ ISR(TWI_vect)
 	case TW_MR_DATA_NACK: /* 0x58 data received, NACK returned */
 		if (bufp >= AVR_I2C_MASTER_MAX_BUFLEN) {
 			flags = AVR_I2C_MASTER_ERR_FATAL;
-			twcr &= _BV(TWIE);
+			twcr &= _BV(TWSTO);
 			goto out;
 		}
 		avr_i2c_master_buf[bufp++] = TWDR;
@@ -106,12 +110,10 @@ ISR(TWI_vect)
 
 	/* leaving out slave status codes */
 	case TW_NO_INFO: /* no state information available */
-	case TW_BUS_ERROR: /* illegal start or stop condition */
-		flags = AVR_I2C_MASTER_ERR_OTHER;
 	default:
 		/* should not happen, disable interrupts */
-		twcr &= ~_BV(TWIE);
 		flags = AVR_I2C_MASTER_ERR_FATAL;
+		twcr |= _BV(TWSTO);
 	}
 
 out:
@@ -131,9 +133,9 @@ avr_i2c_master_init()
 	/* to get 50kbps, we have to device clkIO=16MHz by 320 */
 	/* baud = clkIO/(16 + 2*TWBR*4^TWPS), so TWBR=152, TWPS=0 */
 	TWBR = 152;
-
+	TWCR = 0;
 	TWSR = 0;    /* status register, lower two RW bits are TWPS */
-	TWCR = _BV(TWEN);
+	TWCR = _BV(TWIE)|_BV(TWEN);
 }
 
 void
@@ -141,12 +143,16 @@ avr_i2c_master_trigger(uint8_t flags)
 {
 	cli();
 	avr_i2c_master_flags = flags;
+
+	if (flags & AVR_I2C_MASTER_ERR)
+		avr_i2c_master_init();
+
 	avr_i2c_master_bufp = 0;
 
 	if (avr_i2c_master_buflen > AVR_I2C_MASTER_MAX_BUFLEN)
 		avr_i2c_master_buflen = AVR_I2C_MASTER_MAX_BUFLEN;
 
-	TWCR = _BV(TWEN)|_BV(TWIE)|_BV(TWSTA);
+	TWCR = _BV(TWIE)|_BV(TWEN)|_BV(TWSTA);
 	sei();
 }
 

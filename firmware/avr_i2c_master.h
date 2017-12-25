@@ -22,7 +22,7 @@
 #define AVR_I2C_MASTER_XFER_AUTORD  0x83  /* after writing addr, read data... */
 
 /* max. number of chars to hold during xfer, 1st byte always is (address << 1) */
-#define AVR_I2C_MASTER_MAX_BUFLEN 8
+#define AVR_I2C_MASTER_MAX_BUFLEN 18
 
 extern unsigned char avr_i2c_master_buf[AVR_I2C_MASTER_MAX_BUFLEN];
 extern uint8_t avr_i2c_master_bufp;

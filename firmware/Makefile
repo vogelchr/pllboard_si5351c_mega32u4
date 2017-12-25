@@ -31,6 +31,7 @@ F_USB        = $(F_CPU)
 OPTIMIZATION = s
 TARGET       = pllboard_fw
 SRC          = $(TARGET).c vserial-descriptors.c avr_i2c_master.c cmdline.c \
+	       default_pll_config.c \
 	       $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS)
 LUFA_PATH    = ../lufa-LUFA-170418/LUFA/
 CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER
