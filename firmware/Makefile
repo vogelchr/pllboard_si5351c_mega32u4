@@ -10,14 +10,15 @@
 # --------------------------------------
 
 ###
-# this firmware requires LUFA V17.04.18 unpacked
-# in ../lufa-LUFA-170418. Download from github at
-#   https://github.com/abcminiuser/lufa
+# Download LUFA from github at https://github.com/abcminiuser/lufa
+# This firmware requires LUFA V17.04.18 unpacked in
+#   ../lufa-LUFA-170418.
 #
-# vserial-descriptors.[ch] is a copy of
+# vserial-descriptors.[ch] is a copy of...
 #   ../lufa-LUFA-170418/Demos/Device/ClassDriver/VirtualSerial/Descriptors.[ch]
 #
-# 
+#  LUFAConfig.h is a copy of...
+#   ../lufa-LUFA-170418/Demos/Device/ClassDriver/VirtualSerial/Config/LUFAConfig.h
 ###
 
 # Run "make help" for target help.
@@ -29,7 +30,7 @@ F_CPU        = 16000000
 F_USB        = $(F_CPU)
 OPTIMIZATION = s
 TARGET       = pllboard_fw
-SRC          = $(TARGET).c vserial-descriptors.c \
+SRC          = $(TARGET).c vserial-descriptors.c avr_i2c_master.c cmdline.c \
 	       $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS)
 LUFA_PATH    = ../lufa-LUFA-170418/LUFA/
 CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER
