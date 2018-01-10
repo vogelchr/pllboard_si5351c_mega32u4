@@ -3,3 +3,10 @@ lufa-LUFA-170418.zip
 *.b#[0-9]
 *.s#[0-9]
 firmware/obj
+firmware/pllboard_fw.bin
+firmware/pllboard_fw.eep
+firmware/pllboard_fw.elf
+firmware/pllboard_fw.hex
+firmware/pllboard_fw.lss
+firmware/pllboard_fw.map
+firmware/pllboard_fw.sym
